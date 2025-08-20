@@ -1,0 +1,51 @@
+# Edit the .bashrc file
+vim .bashrc
+
+# Add path to .bashrc (Uncomment to use)
+# export PATH=$PATH:/usr/local/bin/
+
+# Source .bashrc to apply changes
+# source .bashrc
+
+#! /bin/bash
+
+# Update and install unzip
+apt update -y && apt install unzip -y
+
+# Download AWS CLI v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+# Unzip and install AWS CLI
+unzip awscliv2.zip
+sudo ./aws/install
+
+# Configure AWS CLI
+aws configure
+
+# Download kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# Download Kops
+wget https://github.com/kubernetes/kops/releases/download/v1.33.0/kops-linux-amd64
+
+# Make kubectl and kops executable
+chmod +x kops-linux-amd64 kubectl
+
+# Move kubectl and kops to /usr/local/bin/
+mv kubectl /usr/local/bin/kubectl
+mv kops-linux-amd64 /usr/local/bin/kops
+
+# Create S3 bucket with a new name
+aws s3api create-bucket --bucket kailash9696.k8s.local --region us-east-1
+
+# Enable versioning on the S3 bucket
+aws s3api put-bucket-versioning --bucket kailash9696.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+
+# Set KOPS_STATE_STORE environment variable
+export KOPS_STATE_STORE=s3://kailash9696.k8s.local
+
+# Create Kubernetes cluster with new name and settings
+kops create cluster --name kailash.k8s.local --zones ap-south-1a --control-plane-image ami-0f918f7e67a3323f0 --control-plane-count=1 --control-plane-size t2.medium --image ami-0f918f7e67a3323f0 --node-count=2 --node-size t2.micro
+
+# Update the cluster with new settings
+kops update cluster --name kailash.k8s.local --yes --admin
