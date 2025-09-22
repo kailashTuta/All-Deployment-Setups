@@ -1,0 +1,15 @@
+#!/bin/bash
+
+yum update -y
+yum install -y httpd git
+
+systemctl start httpd
+systemctl enable httpd
+
+cd /var/www/html
+
+git clone https://github.com/kailashTuta/Library-Management-System.git .
+
+chown -R apache:apache /var/www/html
+
+systemctl restart httpd
