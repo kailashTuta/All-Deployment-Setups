@@ -1,11 +1,3 @@
-Nice — this is already very solid and very close to how real DevOps teams document CI/CD + containerization.
-
-Below is a **clean, professional Markdown version** of everything you wrote, structured clearly and ready to be used in a README or project documentation.
-
-You can paste this directly into your `.md` file.
-
----
-
 # Containerizing a Java-Based Application Using CI/CD
 
 ## Overview
@@ -181,24 +173,6 @@ Add DockerHub credentials in Jenkins.
 ## 17. Write Jenkins Pipeline
 
 Create and configure the Jenkins pipeline script.
-
----
-
-## 18. Install Docker Compose
-
-Run the following commands:
-
-```bash
-sudo mkdir -p /usr/local/lib/docker/cli-plugins
-sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 \
--o /usr/local/lib/docker/cli-plugins/docker-compose
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-```
-
----
-
-## 19. Run the Jenkins Pipeline
-
 ```bash
 pipeline {
     agent any
@@ -304,6 +278,23 @@ pipeline {
 }
 
 ```
+
+---
+
+## 18. Install Docker Compose
+
+Run the following commands:
+
+```bash
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 \
+-o /usr/local/lib/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+```
+
+---
+
+## 19. Run the Jenkins Pipeline
 
 ---
 
