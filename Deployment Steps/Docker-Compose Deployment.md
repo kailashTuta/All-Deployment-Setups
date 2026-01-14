@@ -66,12 +66,23 @@ Complete the Jenkins initial setup and access the Jenkins dashboard.
 ## 4. Install SonarQube
 
 Install and run SonarQube on the EC2 instance.
+```
+docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+```
 
 ---
 
 ## 5. Install Trivy
 
 Install Trivy for container image vulnerability scanning.
+```
+wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+tar zxvf trivy_0.18.3_Linux-64bit.tar.gz
+sudo mv trivy /usr/local/bin/
+echo 'export PATH=$PATH:/usr/local/bin/' >> ~/.bashrc
+source .bashrc
+trivy --version
+```
 
 ---
 
