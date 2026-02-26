@@ -36,10 +36,9 @@ mv kubectl /usr/local/bin/kubectl
 mv kops-linux-amd64 /usr/local/bin/kops
 
 # Create S3 bucket with a new name
-aws s3api create-bucket --bucket kailash9696.k8s.local --region us-east-1
-
+aws s3api create-bucket --bucket kailash9696.k8s.local --region ap-south-1
 # Enable versioning on the S3 bucket
-aws s3api put-bucket-versioning --bucket kailash9696.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+aws s3api put-bucket-versioning --bucket kailash9696.k8s.local --region ap-south-1 --versioning-configuration Status=Enabled
 
 # Set KOPS_STATE_STORE environment variable
 export KOPS_STATE_STORE=s3://kailash9696.k8s.local
