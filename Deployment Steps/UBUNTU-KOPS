@@ -20,11 +20,13 @@ chmod +x kubectl kops-linux-amd64
 mv kubectl /usr/local/bin/kubectl
 mv kops-linux-amd64 /usr/local/bin/kops
 
-# Create S3 bucket
-aws s3api create-bucket \
-  --bucket kailash9696.k8s.local \
-  --region ap-south-1 \
-  --create-bucket-configuration LocationConstraint=ap-south-1
+# Create S3 bucket only if it doesn't exist
+if ! aws s3api head-bucket --bucket kailash9696.k8s.local 2>/dev/null; then
+  aws s3api create-bucket \
+    --bucket kailash9696.k8s.local \
+    --region ap-south-1 \
+    --create-bucket-configuration LocationConstraint=ap-south-1
+fi
 
 # Enable versioning
 aws s3api put-bucket-versioning \
