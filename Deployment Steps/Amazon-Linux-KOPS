@@ -1,3 +1,7 @@
+#vim .bashrc
+#export PATH=$PATH:/usr/local/bin/
+#source .bashrc
+
 #!/bin/bash
 set -e
 
