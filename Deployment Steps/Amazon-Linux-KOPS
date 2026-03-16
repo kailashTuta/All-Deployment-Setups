@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+# Configure AWS
+aws configure
+
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# Install kops
+wget https://github.com/kubernetes/kops/releases/download/v1.33.0/kops-linux-amd64
+
+chmod +x kubectl kops-linux-amd64
+
+mv kubectl /usr/local/bin/kubectl
+mv kops-linux-amd64 /usr/local/bin/kops
+
+# Create S3 bucket only if it doesn't exist
+if ! aws s3api head-bucket --bucket kailash9696.k8s.local 2>/dev/null; then
+  aws s3api create-bucket \
+    --bucket kailash9696.k8s.local \
+    --region ap-south-1 \
+    --create-bucket-configuration LocationConstraint=ap-south-1
+fi
+
+# Enable bucket versioning
+aws s3api put-bucket-versioning \
+  --bucket kailash9696.k8s.local \
+  --versioning-configuration Status=Enabled
+
+# Set KOPS state store
+export KOPS_STATE_STORE=s3://kailash9696.k8s.local
+
+# Create Kubernetes cluster
+kops create cluster \
+  --name kailash.k8s.local \
+  --zones ap-south-1a \
+  --control-plane-count=1 \
+  --control-plane-size t3.medium \
+  --node-count=2 \
+  --node-size t3.micro
+
+# Apply cluster configuration
+kops update cluster --name kailash.k8s.local --yes --admin
