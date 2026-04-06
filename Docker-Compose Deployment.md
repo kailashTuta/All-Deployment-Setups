@@ -42,7 +42,7 @@ The production pipeline consists of the following stages:
 
 ## 1. Launch EC2 Instance
 
-* Instance type: `t2.launch`
+* Instance type: `t2.large`
 * Storage: `20 GB EBS`
 
 ---
@@ -54,6 +54,7 @@ Install the following on the EC2 instance:
 * Git
 * Jenkins
 * Docker
+* Jave
 
 ---
 
